@@ -1,0 +1,15 @@
+.ipynb_checkpoints/
+checkpoint/exp_052
+checkpoint/exp_053/
+data/VG/
+eval.ipynb
+ipynb/experiments/.ipynb_checkpoints/
+metadata/VG/
+src/dataflow/__pycache__/
+src/eval/__pycache__/
+src/tensorflow/engine/__pycache__/
+src/tensorflow/models/__pycache__/
+src/tensorflow/util/__pycache__/
+src/util/__pycache__/
+ipynb/*/*
+src/tensorflow/engine/util.py

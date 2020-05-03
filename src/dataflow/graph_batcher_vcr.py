@@ -17,12 +17,11 @@ class GraphBatcher:
                 'num_pred': num_preds,
             }
     '''
-    def __init__(self, batch_size):
+    def __init__(self, batch_size, dim_feats):
         self.batch_size = batch_size
         
         self.cursor = 0
-        self.subset_idx = np.arange(loader.size)
-        self.size = loader.size
+        #self.subset_idx = np.arange(loader.size)
         # self.num_batch = int(np.ceil(self.subset_idx.shape[0] / self.batch_size))
         
         # self.seed = seed
@@ -36,16 +35,8 @@ class GraphBatcher:
 
         # input_file = ''
         with open(r"/home/suji/spring20/stuffs.pkl", "rb") as input_file:
-            self.d = cPickle.load(input_file) # dict_keys(['feat_tensor', 'feat_np', 'proposal', 'img_id', 'orig_bb', 'bb'])
+            self.d = pickle.load(input_file)
 
-        
-    def set_subset(self, idx):
-        self.subset_idx = np.asarray(idx, dtype='int32').flatten()
-        self.size = self.subset_idx.shape[0]
-        self.num_batch = int(np.ceil(self.subset_idx.shape[0] / self.batch_size))
-        
-    def reset(self):
-        self.cursor = 0
         
         
     def next_batch(self, keep_cursor=False):
@@ -72,4 +63,3 @@ class GraphBatcher:
         # feed_dict['num_pred'] = None
 
         return feed_dict
-'''
