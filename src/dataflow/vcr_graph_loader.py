@@ -18,7 +18,7 @@ class VCRGraphLoader:
         self.img_ids = np.array(pickle.loads(self.txn.get("keys".encode('utf-8'))))
         self.size = self.img_ids.size
 
-        # self.imgid2idx = {imgid: idx for idx, imgid in enumerate(self.img_ids)}
+        self.imgid2idx = {imgid: idx for idx, imgid in enumerate(self.img_ids)}
 
         fn1, fn2 = '/home/suji/spring20/vspnet/src/dataflow/srl_entries.pkl', '/home/suji/spring20/vspnet/src/dataflow/vcr_embed.pkl'
         

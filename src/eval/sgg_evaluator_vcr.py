@@ -1,4 +1,4 @@
-from .graph_util_new_02 import evaluation_preproc    
+from .graph_util_vcr import evaluation_preproc    
 from .graph_eval_3 import eval_ent_prec_rec_simple, eval_pred_prec_rec_simple, eval_triple_prec_rec_simple
     
 class Evaluator(object):
