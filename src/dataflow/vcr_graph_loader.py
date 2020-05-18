@@ -111,9 +111,9 @@ class VCRGraphLoader:
         gt_graph['pred_emb'] = pred_embs
         gt_graph['ent_lbl'] = ent_lbls 
         gt_graph['pred_lbl'] = pred_lbls
-        gt_graph['num_ent'] = [len(x) for x in ent_embs]
-        gt_graph['num_pred'] = [len(x) for x in pred_embs]
-
+        gt_graph['num_ent'] = np.asarray([len(x) for x in ent_embs])
+        gt_graph['num_pred'] = np.asarray([len(x) for x in pred_embs])
+        gt_graph['pred_roles'] =[np.zeros((2, 1,1)) for idx in idx_list]
         if pack:
             num_entities = []
             num_preds = []
@@ -130,7 +130,7 @@ class VCRGraphLoader:
             ent_emb = np.zeros((len(idx_list), max_n_ent, self.emb_dim), dtype='float32')
             pred_emb = np.zeros((len(idx_list), max_n_pred, self.emb_dim), dtype='float32')
             ent_box = np.zeros((len(idx_list), max_n_ent, 4), dtype='float32')
-            #pred_roles = np.zeros((len(idx_list), gt_graph['pred_roles'][0].shape[0], max_n_pred, max_n_ent), dtype='bool')
+            pred_roles = np.zeros((len(idx_list), gt_graph['pred_roles'][0].shape[0], max_n_pred, max_n_ent), dtype='bool')
 
             for i in range(len(idx_list)):
                 if max_n_ent > 0:
@@ -153,10 +153,13 @@ class VCRGraphLoader:
                 'ent_lbl': ent_lbl,
                 'ent_box': ent_box,
                 'pred_lbl': pred_lbl,
+                'pred_roles': pred_roles,
                 'ent_emb': ent_emb,
                 'pred_emb': pred_emb,
                 'num_ent': num_entities,
                 'num_pred': num_preds,
+                'proposal_boxes': prop_box, 
+                'proposal_features':features
             }
         
         return gt_graph
