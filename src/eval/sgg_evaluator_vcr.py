@@ -28,10 +28,9 @@ class Evaluator(object):
     
     def evaluate(self):
         det_graph_val, gt_graph_val = evaluation_preproc(self.data, {
-            # 'graph_loader': self.args['graph_loader'],
+            'graph_loader': self.args['graph_loader'],
             'match_zero': False,
             'top_k': 1, 
-            'proposals': self.args['proposals'],
             'num_proposals': self.args.get('num_proposals'),
             'add_full_proposal': self.args.get('add_full_proposal', False),
             'freq_prior': self.args.get('add_full_proposal', None),
@@ -68,7 +67,6 @@ class Evaluator(object):
             })
         for key, val in res.items():
             self.stats[f'{key}_at50_iou_0.5'] = val
-
 
         return self.stats
 

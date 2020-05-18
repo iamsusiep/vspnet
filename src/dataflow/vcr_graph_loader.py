@@ -16,6 +16,7 @@ class VCRGraphLoader:
         self.num_proposals = num_proposals
         self.dim_feats = dim_feats
         self.img_ids = np.array(pickle.loads(self.txn.get("keys".encode('utf-8'))))
+        self.size = self.img_ids.size
 
         # self.imgid2idx = {imgid: idx for idx, imgid in enumerate(self.img_ids)}
 
@@ -102,8 +103,8 @@ class VCRGraphLoader:
         prop_box = np.asarray(prop_box)
         ent_embs = np.asarray(ent_embs)
         pred_embs = np.asarray(pred_embs)
-
-        gt_graph['image_id'] = img_ids
+        gt_graph = dict()
+        gt_graph['image_id'] = [imgid.split('-')[1] for imgid in img_ids]
         gt_graph['proposal_features'] = features
         gt_graph['proposal_boxes'] = prop_box
         gt_graph['ent_emb'] = ent_embs
@@ -114,11 +115,11 @@ class VCRGraphLoader:
         gt_graph['num_pred'] = [len(x) for x in pred_embs]
 
         if pack:
-        	num_entities = []
+            num_entities = []
             num_preds = []
             for i in range(len(idx_list)):
-                num_entities.append(gt_graph['ent_emb'][i].shape[0])
-                num_preds.append(gt_graph['pred_emb'][i].shape[0])
+                num_entities.append(np.asarray(gt_graph['ent_emb'][i]).shape[0])
+                num_preds.append(np.asarray(gt_graph['pred_emb'][i]).shape[0])
             num_entities = np.asarray(num_entities, dtype='int32')
             num_preds = np.asarray(num_preds, dtype='int32') 
             max_n_ent = np.max(num_entities)
@@ -129,21 +130,21 @@ class VCRGraphLoader:
             ent_emb = np.zeros((len(idx_list), max_n_ent, self.emb_dim), dtype='float32')
             pred_emb = np.zeros((len(idx_list), max_n_pred, self.emb_dim), dtype='float32')
             ent_box = np.zeros((len(idx_list), max_n_ent, 4), dtype='float32')
-            pred_roles = np.zeros((len(idx_list), gt_graph['pred_roles'][0].shape[0], max_n_pred, max_n_ent), dtype='bool')
+            #pred_roles = np.zeros((len(idx_list), gt_graph['pred_roles'][0].shape[0], max_n_pred, max_n_ent), dtype='bool')
 
             for i in range(len(idx_list)):
                 if max_n_ent > 0:
                     if num_entities[i] > 0:
                         ent_lbl[i, :num_entities[i]] = gt_graph['ent_lbl'][i]
                         ent_emb[i, :num_entities[i]] = gt_graph['ent_emb'][i]
-                        ent_box[i, :num_entities[i]] = gt_graph['ent_box'][i]
+                        #ent_box[i, :num_entities[i]] = gt_graph['ent_box'][i]
                 if max_n_pred > 0:
                     assert(max_n_ent > 0)
                     if num_preds[i] > 0:
                         pred_lbl[i, :num_preds[i]] = gt_graph['pred_lbl'][i]
                         pred_emb[i, :num_preds[i]] = gt_graph['pred_emb'][i]
-                        if num_entities[i] > 0:
-                            pred_roles[i, :, :num_preds[i], :num_entities[i]] = gt_graph['pred_roles'][i]
+                        #if num_entities[i] > 0:
+                        #    pred_roles[i, :, :num_preds[i], :num_entities[i]] = gt_graph['pred_roles'][i]
 
             image_id = np.asarray(gt_graph['image_id'])
                 
@@ -152,7 +153,6 @@ class VCRGraphLoader:
                 'ent_lbl': ent_lbl,
                 'ent_box': ent_box,
                 'pred_lbl': pred_lbl,
-                'pred_roles': pred_roles,
                 'ent_emb': ent_emb,
                 'pred_emb': pred_emb,
                 'num_ent': num_entities,

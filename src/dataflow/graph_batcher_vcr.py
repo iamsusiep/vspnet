@@ -1,4 +1,4 @@
-
+import numpy as np
 class GraphBatcher:
 
     def __init__(self, loader, batch_size):
@@ -10,9 +10,15 @@ class GraphBatcher:
         self.size = loader.size
         self.num_batch = int(np.ceil(self.subset_idx.shape[0] / self.batch_size))
 
-    def set_subset(self, idx):
-        self.subset_idx = np.asarray(idx, dtype='int32').flatten()
-        self.size = self.subset_idx.shape[0]
+    def set_subset(self, is_train=True):
+        if is_train:
+            self.subset_idx = np.asarray(self.subset_idx[:int(self.size*0.8)], dtype='int32').flatten()
+            self.size = self.subset_idx.shape[0]
+        else:
+            self.subset_idx = np.asarray(self.subset_idx[int(self.size*0.8):], dtype='int32').flatten()
+            self.size = self.subset_idx.shape[0]
+        #self.subset_idx = np.asarray(idx, dtype='int32').flatten()
+        #self.size = self.subset_idx.shape[0]
         self.num_batch = int(np.ceil(self.subset_idx.shape[0] / self.batch_size))
         
 
