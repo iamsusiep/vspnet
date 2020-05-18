@@ -13,10 +13,9 @@ src/tensorflow/util/__pycache__/
 src/util/__pycache__/
 ipynb/*/*
 src/tensorflow/engine/util.py
-
+src/eval.py
+vis/
 redo lmdb.ipynb
 src/dataflow/detection_test/
 src/dataflow/srl_entries.pkl
 src/dataflow/vcr_embed.pkl
-src/eval/graph_util_vcr.py
-src/eval/sgg_evaluator_vcr.py
