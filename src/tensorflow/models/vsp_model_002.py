@@ -388,6 +388,8 @@ class Model(AbstractModel):
 
                     with tf.variable_scope(f'mp_output_heads'):
                         entity_nodes_emb = nd_batch_proc(ent_gru_state, emb_head_ent)
+                        print('entity_nodes_emb', entity_nodes_emb)
+                        print('emb_head_ent_cls', emb_head_ent_cls)
                         entity_nodes_emb = nd_batch_proc(entity_nodes_emb, lambda x: tf.matmul(x, emb_head_ent_cls, transpose_b=True))
                         entity_nodes_dist = tf.nn.softmax(tf.stop_gradient(entity_nodes_emb))
 
