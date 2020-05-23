@@ -79,7 +79,7 @@ def evaluation_preproc(model_output, args={}):
     pred_lbl = []
     ent_score = []
     pred_score = []
-    ent_box = []
+    ent_box = [[] for _ in range(len(image_id))]
     for i in range(len(image_id)):
         if gt_entities:
             nouns_label = np.copy(gt_graph['ent_lbl'][i]).reshape((gt_graph['ent_lbl'][i].shape[0], 1))
@@ -115,7 +115,7 @@ def evaluation_preproc(model_output, args={}):
             preds_score = np.asarray([[pred_dist[j, preds_label[j, k]] for k in range(topk)] for j in range(preds_label.shape[0])])
             preds_score = np.sum(preds_score, axis=-1)
         
-        ent_box[i] = ent_box['proposal_boxes'][i]
+        ent_box[i] = gt_graph['proposal_boxes'][i]
         if filter_nonoverlap:
             overlap = (pw_iou(ent_box[i], ent_box[i]) > 0.0).astype(np.float32)
             preds_score *= overlap[pred_roles_idx[i][:, 0], pred_roles_idx[i][:, 1]]

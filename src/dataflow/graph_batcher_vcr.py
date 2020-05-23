@@ -29,7 +29,7 @@ class GraphBatcher:
         new_cursor = min(self.cursor + self.batch_size, self.subset_idx.shape[0])
         idx_idx = np.arange(self.cursor, new_cursor)
         idx = self.subset_idx[idx_idx]
-
+        #print('idx',idx)
         gt_graph = self.loader.get_gt_batch(idx, pack=True)          
         feed_dict = dict(gt_graph)
 

@@ -147,6 +147,10 @@ def eval_triple_prec_rec_simple(det_graph, gt_graph, args={}):
                 for role in range(gt_graph['pred_roles'][i].shape[0]):
                     gt_role_idx = np.where(gt_graph['pred_roles'][i][role, j, :])[0]
                     if gt_role_idx.size != 1:
+                        print("gt_graph['image_id'][i]", gt_graph['image_id'][i])
+                        print("gt_graph['pred_roles'][i]", gt_graph['pred_roles'][i])
+                        print("gt_graph['pred_roles'][i]", gt_graph['pred_roles'][i].shape)
+                        print("gt_graph['pred_roles'][i][role, j, :]", gt_graph['pred_roles'][i][role, j, :])
                         raise NotImplementedError
                     gt_role_idx = gt_role_idx[0]
                     

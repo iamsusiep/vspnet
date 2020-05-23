@@ -57,6 +57,7 @@ def deploy(sess, model, batcher, collector, op,
             s = tic()
             data_batch = batcher.next_batch()
             #print("data_batch", data_batch)
+            '''
             print('ent_lbl shape', data_batch['ent_lbl'].shape)
             print('ent_lbl shape', data_batch['ent_lbl'].shape)
             print('ent_box shape', data_batch['ent_box'].shape)
@@ -68,6 +69,7 @@ def deploy(sess, model, batcher, collector, op,
             print('num_pred shape', data_batch['num_pred'].shape)
             print('proposal_features shape', data_batch['proposal_features'].shape)
             print('proposal_boxes shape', data_batch['proposal_boxes'].shape)
+            '''
             rt = toc(s)
             rt_hist.append(rt)
 
